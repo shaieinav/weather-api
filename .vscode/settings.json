@@ -1,0 +1,18 @@
+{
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "remote.extensionKind": {
+    "pub.name": ["ui"]
+  },
+  "python.venvPath": "~/.virtualenvs",
+  "python.venvFolders": ["~/.virtualenvs"],
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": ["document"]
+  },
+  "python.languageServer": "None"
+}
