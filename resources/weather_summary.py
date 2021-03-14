@@ -4,7 +4,7 @@ from models.weather_data import WeatherDataModel
 from schemas.weather_summary import WeatherSummarySchema
 
 WEATHER_NOT_FOUND = "Weather data not found."
-ERROR_FETCHING = "An error occured while trying to fetch the weather data!"
+ERROR_FETCHING_WEATHER = "An error occured while trying to fetch the weather data!"
 
 weather_summary_schema = WeatherSummarySchema(many=True)
 
@@ -14,14 +14,14 @@ class WeatherSummary(Resource):
     def get(self):
 
         try:
-            longitude = request.args.get("longitude")
-            latitude = request.args.get("latitude")
+            longitude = request.args.get("lon")
+            latitude = request.args.get("lat")
 
             weather = WeatherDataModel.find_by_longitude_and_latitude(
                 longitude, latitude
             )
         except Exception as ex:
-            return {"message": ERROR_FETCHING, "Error": ex.message}, 500
+            return {"message": ERROR_FETCHING_WEATHER, "Error": ex}, 500
 
         if weather:
 
@@ -56,8 +56,8 @@ class WeatherSummary(Resource):
                 ):
                     maxPrecipitation = weather_data_point.precipitation
 
-            avgTemperature = format(total_temperature / num_of_data_points, '.1f')
-            avgPrecipitation = format(total_precipitation / num_of_data_points, '.1f')
+            avgTemperature = round(total_temperature / num_of_data_points, 2)
+            avgPrecipitation = round(total_precipitation / num_of_data_points, 2)
 
             weather_summary_obj = {
                 "max": {

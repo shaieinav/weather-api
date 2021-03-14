@@ -10,12 +10,19 @@ from load_data import load_csv_data
 from resources.weather_data import WeatherData
 from resources.weather_summary import WeatherSummary
 
+import logging
+
 app = Flask(__name__)
+
 app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URL", "sqlite:///test.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
+
 api = Api(app)
 
+@app.route('/')
+def home():
+    return 'Weather API App'
 
 @app.errorhandler(ValidationError)
 def handle_marshmallow_validation(error):

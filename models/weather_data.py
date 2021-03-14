@@ -1,7 +1,5 @@
 from db import db
-from typing import Dict, List, Union
-
-WeatherJSON = Dict[str, Union[float, str]]
+from typing import List
 
 
 class WeatherDataModel(db.Model):
@@ -28,21 +26,4 @@ class WeatherDataModel(db.Model):
         try:
             return cls.query.filter_by(longitude=longitude, latitude=latitude).all()
         except Exception as ex:
-            return {"message": ex.message}
-
-    @classmethod
-    def find_by_longitude_and_latitude_and_forecast_time(
-        cls, longitude, latitude, forecast_time
-    ) -> "WeatherDataModel":
-
-        return cls.query.filter_by(
-            longitude=longitude, latitude=latitude, forecast_time=forecast_time
-        ).one_or_none()
-
-    @classmethod
-    def find_max_min_avg(cls, longitude, latitude):
-        pass
-
-    def save_to_db(self) -> None:
-        db.session.add(self)
-        db.session.commit()
+            return {"Exception while trying to get weather data from the database.": ex}
