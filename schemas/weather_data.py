@@ -6,7 +6,7 @@ class WeatherDataSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = WeatherDataModel
         load_only = (
-            "longitude",
-            "latitude",
+            'longitude',
+            'latitude',
         )
         load_instance = True

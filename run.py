@@ -12,5 +12,4 @@ def create_tables():
     db.create_all()
 
 
-load_csv_data(app.config["SQLALCHEMY_DATABASE_URI"])
-
+load_csv_data(app.config['SQLALCHEMY_DATABASE_URI'])
