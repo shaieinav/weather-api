@@ -18,7 +18,7 @@ class WeatherDataModel(db.Model):
     temperature = db.Column(db.Float(precision=1), nullable=False)
     precipitation = db.Column(db.Float(precision=1), nullable=False)
 
-    weather_summary = db.relationship('WeatherSummaryModel')
+    #weather_summary = db.relationship('WeatherSummaryModel')
 
     __table_args__ = (
         db.PrimaryKeyConstraint(
@@ -26,6 +26,11 @@ class WeatherDataModel(db.Model):
             'latitude',
             'forecast_time',
         ),
+        #db.UniqueConstraint(
+            #'longitude',
+            #'latitude',
+            #'forecast_time'
+        #),
     )
 
     @classmethod

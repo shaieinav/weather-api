@@ -29,7 +29,6 @@ def load_csv_data(db_uri):
         weather_summary_cols_data_type = {
             'longitude': Float(),
             'latitude': Float(),
-            'forecast_time': String() if using_sqlite else DateTime(),
             'max_temperature': Float(),
             'min_temperature': Float(),
             'avg_temperature': Float(),
@@ -42,17 +41,9 @@ def load_csv_data(db_uri):
         engine = create_engine(db_uri)
         weather_df = pd.concat(dataframes)
 
-        weather_summary_df = weather_df.groupby(['longitude', 'latitude']).agg({'forecast_time': 'first', 'temperature': ['max', 'min', 'mean'], 'precipitation': ['max', 'min', 'mean']})
-        weather_summary_df.columns = ['forecast_time', 'max_temperature', 'min_temperature', 'avg_temperature', 'max_precipitation', 'min_precipitation', 'avg_precipitation']
+        weather_summary_df = weather_df.groupby(['longitude', 'latitude']).agg({'temperature': ['max', 'min', 'mean'], 'precipitation': ['max', 'min', 'mean']})
+        weather_summary_df.columns = ['max_temperature', 'min_temperature', 'avg_temperature', 'max_precipitation', 'min_precipitation', 'avg_precipitation']
         weather_summary_df = weather_summary_df.reset_index()
-
-        print('weather summary dataframe:')
-        print(weather_summary_df.head(n=10))
-        print(f'df shape is {weather_summary_df.shape}')
-
-        if not using_sqlite:
-            weather_df['forecast_time'] = weather_df['forecast_time'].astype('datetime')
-            weather_summary_df['forecast_time'] = weather_summary_df['forecast_time'].astype('datetime')
 
         weather_df.to_sql(
             'weather',
@@ -73,4 +64,5 @@ def load_csv_data(db_uri):
         )
 
     except Exception as ex:
+        print(f'Exception loading data to DB: {ex}')
         return {'message': EXCEPTION_LOADING_DATA_TO_DB, 'Error': ex}

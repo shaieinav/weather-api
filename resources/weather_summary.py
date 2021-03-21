@@ -21,6 +21,7 @@ class WeatherSummary(Resource):
                 longitude, latitude
             )
         except Exception as ex:
+            print(f'Exception fetching weather summary data: {ex}')
             return {'message': ERROR_FETCHING_WEATHER, 'Error': ex}, 500
 
         if weather_summary:

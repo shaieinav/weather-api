@@ -10,10 +10,10 @@ class WeatherSummarySchema(ma.SQLAlchemyAutoSchema):
         load_only = (
             'longitude',
             'latitude',
-            'forecast_time',
+            #'forecast_time',
             'weather_data'
         )
-        include_fk = True
+        #include_fk = True
         load_instance = True
         ordered = True
 
