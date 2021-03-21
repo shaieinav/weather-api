@@ -18,6 +18,8 @@ class WeatherDataModel(db.Model):
     temperature = db.Column(db.Float(precision=1), nullable=False)
     precipitation = db.Column(db.Float(precision=1), nullable=False)
 
+    weather_summary = db.relationship('WeatherSummaryModel')
+
     __table_args__ = (
         db.PrimaryKeyConstraint(
             'longitude',
