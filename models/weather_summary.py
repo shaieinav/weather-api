@@ -1,5 +1,9 @@
+from os import environ
+
 from db import db
 
+using_sqlite = environ.get('DATABASE_URL', 'sqlite:///test.db') == 'sqlite:///test.db'
+FORECAST_TIME_COLUMN_TYPE = db.String if using_sqlite else db.DateTime
 EXCEPTION_FETCHING_FROM_DB = 'Exception while trying to get weather summary '\
                              'data from the database.'
 
@@ -9,6 +13,7 @@ class WeatherSummaryModel(db.Model):
     __tablename__ = 'weather_summary'
     longitude = db.Column(db.Float(precision=1))
     latitude = db.Column(db.Float(precision=1))
+    forecast_time = db.Column(FORECAST_TIME_COLUMN_TYPE)
     min_temperature = db.Column(db.Float(precision=1), nullable=False)
     max_temperature = db.Column(db.Float(precision=1), nullable=False)
     min_precipitation = db.Column(db.Float(precision=1), nullable=False)
@@ -24,8 +29,8 @@ class WeatherSummaryModel(db.Model):
             'latitude',
         ),
         db.ForeignKeyConstraint(
-            ['longitude', 'latitude'],
-            ['weather.longitude', 'weather.latitude']
+            ['longitude', 'latitude', 'forecast_time'],
+            ['weather.longitude', 'weather.latitude', 'weather.forecast_time']
         ),
     )
 
